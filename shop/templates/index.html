@@ -1,0 +1,13 @@
+{% extends "base.html" %}
+{% block title %}
+Welcome
+{% endblock %}
+
+{% block content %}
+    <h1>This is index page, wow</h1>
+    <h3>Hello {{ name }}, see this : 
+        <a href="{{ url_for('signin')}}">Sign in</a>
+        <a href="{{ url_for('signup')}}">Sign up</a>
+        <a href="{{ url_for('logout')}}">Logout</a>
+    </h3>
+{% endblock %}
