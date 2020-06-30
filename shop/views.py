@@ -8,21 +8,22 @@ from models import User
 
 login_manager = LoginManager()
 login_manager.init_app(app)
-login_manager.login_view = 'login'
+login_manager.login_view = 'signin'
 
 @login_manager.user_loader
 def load_user(user_id):
     return User.query.get(int(user_id))
 
 @app.route('/')
-@app.route('/index')
 def index():
     if current_user.is_authenticated:
         return render_template('index.html', name = current_user.username)
-    return render_template('index.html', name = "Anon")
+    return render_template('index.html', name = "Anonymous")
 
 @app.route('/signin', methods=['GET', 'POST'])
 def signin():
+    if current_user.is_authenticated:
+        return redirect(url_for('index'))
     form = LoginForm()
     if form.is_submitted():
         user = User.query.filter_by(username = form.username.data).first()
@@ -34,14 +35,29 @@ def signin():
 
 @app.route('/signup', methods=['GET', 'POST'])
 def signup():
+    if current_user.is_authenticated:
+        return redirect(url_for('index'))
     form = RegisterForm()
     if form.validate_on_submit():
-        hash_password = generate_password_hash(form.password.data, method='sha256')
-        new_user = User(username=form.username.data, password=hash_password, email=form.email.data)
-        db.session.add(new_user)
-        db.session.commit()
-        return redirect(url_for('signin'))
+        user = User.query.filter_by(username = form.username.data).first()
+        email = User.query.filter_by(email = form.email.data).first()
+        if user is None and email is None:
+            hash_password = generate_password_hash(form.password.data, method='sha256')
+            new_user = User(username=form.username.data, password=hash_password, email=form.email.data)
+            db.session.add(new_user)
+            db.session.commit()
+            return redirect(url_for('signin'))
+        else:
+            return render_template('signup.html', form = form, info = "This username or email already used")
     return render_template('signup.html', form = form)
+
+@app.route('/cats')
+def cats():
+    return "<h2>Cats here<h2>"
+
+@app.route('/dogs')
+def dogs():
+    return "<h2>Dogs here<h2>"
 
 @app.route('/logout')
 @login_required

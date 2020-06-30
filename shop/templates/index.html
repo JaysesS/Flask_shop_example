@@ -1,13 +1,22 @@
 {% extends "base.html" %}
+
 {% block title %}
 Welcome
 {% endblock %}
 
+{% block styles %}
+{{ super() }}
+<link rel="stylesheet" href="{{url_for('static', filename='css/const.css')}}">
+{% endblock %}
+
 {% block content %}
-    <h1>This is index page, wow</h1>
-    <h3>Hello {{ name }}, see this : 
-        <a href="{{ url_for('signin')}}">Sign in</a>
-        <a href="{{ url_for('signup')}}">Sign up</a>
-        <a href="{{ url_for('logout')}}">Logout</a>
-    </h3>
+    <div class="container">
+        <h1 class="page-header text-center">Welcome to example Shop</h1>
+        {% if current_user.is_authenticated %}
+            <h3>Hi {{ current_user.username }}! You can buy some cats & dogs!</h3>
+        {% else %}
+            <h3>Hi! <a href="{{ url_for('signup') }}">Register</a>
+                and can buy some cats & dogs!</h3>
+        {% endif %}
+    </div>
 {% endblock %}
