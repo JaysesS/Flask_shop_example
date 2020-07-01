@@ -72,9 +72,7 @@ def init_custom_nav_renderer(app):
 title = View('Jayse Shop', 'index')
 root_class = 'navbar navbar-inverse'
 items = (
-    Subgroup('Product',
-        View('Cats', 'cats'),
-        View('Dogs', 'dogs')),
+    View('Shop', 'shop'),
     Subgroup('Info',
         Link('Github', 'https://github.com/JaysesS'),
         Link('Telegram', 'https://t.me/JayseSs')),
@@ -95,6 +93,7 @@ auth = ExtendedNavbar(
     root_class = root_class,
     items = items,
     right_items=(
+        View('Account', 'account'),
         View('Logout', 'logout'),
     )
 )

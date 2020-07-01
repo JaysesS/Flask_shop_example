@@ -2,13 +2,44 @@ from app import app, db
 from flask import render_template, redirect, url_for
 from werkzeug.security import generate_password_hash, check_password_hash
 from flask_login import LoginManager, login_user, login_required, logout_user, current_user
+from flask_admin import Admin, AdminIndexView
+from flask_admin.contrib.sqla import ModelView
 
 from forms import LoginForm, RegisterForm
-from models import User
+from models import User, Product, Order
 
 login_manager = LoginManager()
 login_manager.init_app(app)
 login_manager.login_view = 'signin'
+
+class AdminViewModels(ModelView):
+    def is_accessible(self):
+        if current_user.is_authenticated:
+            if current_user.username == 'jayse' or \
+                current_user.username == 'admin':
+                return True
+        else:
+            return False
+    
+    def inaccessible_callback(self, name, **kwargs):
+        return redirect(url_for('index'))
+
+class AdminViewIndex(AdminIndexView):
+    def is_accessible(self):
+        if current_user.is_authenticated:
+            if current_user.username == 'jayse' or \
+                current_user.username == 'admin':
+                return True
+        else:
+            return False
+    
+    def inaccessible_callback(self, name, **kwargs):
+        return redirect(url_for('index'))
+
+admin = Admin(app, index_view=AdminViewIndex())
+admin.add_view(AdminViewModels(User, db.session))
+admin.add_view(AdminViewModels(Product, db.session))
+admin.add_view(AdminViewModels(Order, db.session))
 
 @login_manager.user_loader
 def load_user(user_id):
@@ -43,7 +74,11 @@ def signup():
         email = User.query.filter_by(email = form.email.data).first()
         if user is None and email is None:
             hash_password = generate_password_hash(form.password.data, method='sha256')
-            new_user = User(username=form.username.data, password=hash_password, email=form.email.data)
+            new_user = User(username = form.username.data, 
+                            password = hash_password, 
+                            email = form.email.data,
+                            money = 0,
+                            image = None)
             db.session.add(new_user)
             db.session.commit()
             return redirect(url_for('signin'))
@@ -51,13 +86,14 @@ def signup():
             return render_template('signup.html', form = form, info = "This username or email already used")
     return render_template('signup.html', form = form)
 
-@app.route('/cats')
-def cats():
-    return "<h2>Cats here<h2>"
+@app.route('/shop')
+@app.route('/shop/')
+def shop():
+    return render_template('shop.html')
 
-@app.route('/dogs')
-def dogs():
-    return "<h2>Dogs here<h2>"
+@app.route('/account')
+def account():
+    return render_template('account.html')
 
 @app.route('/logout')
 @login_required
