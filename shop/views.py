@@ -1,5 +1,5 @@
 from app import app, db
-from flask import render_template, redirect, url_for
+from flask import render_template, redirect, url_for, request, jsonify
 from werkzeug.security import generate_password_hash, check_password_hash
 from flask_login import LoginManager, login_user, login_required, logout_user, current_user
 from flask_admin import Admin, AdminIndexView
@@ -7,6 +7,8 @@ from flask_admin.contrib.sqla import ModelView
 
 from forms import LoginForm, RegisterForm
 from models import User, Product, Order
+
+from procedure import query_view_product
 
 login_manager = LoginManager()
 login_manager.init_app(app)
@@ -86,10 +88,17 @@ def signup():
             return render_template('signup.html', form = form, info = "This username or email already used")
     return render_template('signup.html', form = form)
 
-@app.route('/shop')
 @app.route('/shop/')
 def shop():
-    return render_template('shop.html')
+    pq = Product.query.all()
+    products = query_view_product(pq)
+    return render_template('shop.html', products = products)
+
+@app.route('/order', methods = ['POST'])
+def order():
+    order = request.get_json()
+    print(order)
+    return jsonify(success=True, data=order)
 
 @app.route('/account')
 def account():

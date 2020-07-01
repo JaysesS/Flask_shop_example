@@ -5,13 +5,35 @@ Shop
 {% endblock %}
 
 {% block styles %}
-{{ super() }}
-<link rel="stylesheet" href="{{url_for('static', filename='css/const.css')}}">
+    {{ super() }}
+    <link rel="stylesheet" href="{{url_for('static', filename='css/const.css')}}">
+    <link rel="stylesheet" href="{{url_for('static', filename='css/shop.css')}}">
+{% endblock %}
+
+{% block scripts %}
+    {{ super() }}
+    <script type=text/javascript src="{{url_for('static', filename='js/shop.js')}}"></script>
+    <script type=text/javascript src="{{ url_for('static', filename='js/jquery-2.2.2.min.js') }}"></script>
 {% endblock %}
 
 {% block content %}
     <div class="container">
-        <h2>Coming soon</h2>
+        <div class="list_products">
+            {% for product in products %}
+                <div class="product">
+                    <img src="{{ url_for('static', filename = 'images/example.jpeg') }}" width="180" height="180" alt="{{ product.name }}" border="0">
+                    <h2>{{ product.name }}</h2>
+                    <p><strong>${{ product.price }}</strong> {{ product.count}} left</p>
+                    <div class="description">
+                        <p>{{ product.description }}</p>
+                    </div>
+                    <p>Amount: 
+                        <input id = "amount_input{{ product.id }}" type="number" min = 1 max={{ product.count }} value="1">
+                    </p>
+                    <button type="button" onClick="send_order(this.id)" id = "send_button{{ product.id }}" class="btn btn-success">Send offer</button>
+                </div>
+            {% endfor %}
+        </div>
     </div>
 
 

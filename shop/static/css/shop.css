@@ -1,0 +1,28 @@
+.list_products {
+    display: inline-flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+}
+
+.product {
+    width: 250px;
+    padding-top: 10px;
+}
+
+.description {
+    height: 50px;
+}
+
+.amout {
+    display: inline;
+}
+
+input {
+    width: 60px;
+    height: 20px;
+}
+
+button {
+    width: 250px;
+}
+
