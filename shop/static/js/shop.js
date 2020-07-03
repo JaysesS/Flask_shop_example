@@ -1,5 +1,4 @@
 window.onload = () => {
-    //add event listener to prevent the default behavior
     const inputFields = document.querySelectorAll('input[type = number]');
     for (i = 0; i < inputFields.length; i++) {
         inputFields[i].addEventListener("keypress", (event) => {
@@ -8,16 +7,19 @@ window.onload = () => {
     }
   }
 
-function send_order(clicked_id)
+
+function sendOrder(clicked_id)
 {
     var id = clicked_id.match(/\d+$/)[0];
-    var amount = $("#amount_input" + id).val();
-    var data = {"product_id" : id, "amount" : amount};
+    var amount_id = "#amount_input" + id
+    var amount = $(amount_id).val();
+    var data = {"id" : id, "amount" : amount}
     $.ajax({
         type: 'POST',
         contentType: 'application/json',
-        url: '/order',
+        url: '/api/add_to_cart',
         dataType : 'json',
         data : JSON.stringify(data)
     });
+    $(amount_id).val("1");
 }

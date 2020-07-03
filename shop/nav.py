@@ -93,6 +93,7 @@ auth = ExtendedNavbar(
     root_class = root_class,
     items = items,
     right_items=(
+        View('Cart', 'cart'),
         View('Account', 'account'),
         View('Logout', 'logout'),
     )

@@ -21,7 +21,7 @@ Shop
         <div class="list_products">
             {% for product in products %}
                 <div class="product">
-                    <img src="{{ url_for('static', filename = 'images/example.jpeg') }}" width="180" height="180" alt="{{ product.name }}" border="0">
+                    <img src="{{ url_for('static', filename = 'images/example.jpeg') }}" width="180" height="180" alt="{{ product.name }}" title="{{ product.name }}" border="0">
                     <h2>{{ product.name }}</h2>
                     <p><strong>${{ product.price }}</strong> {{ product.count}} left</p>
                     <div class="description">
@@ -30,7 +30,7 @@ Shop
                     <p>Amount: 
                         <input id = "amount_input{{ product.id }}" type="number" min = 1 max={{ product.count }} value="1">
                     </p>
-                    <button type="button" onClick="send_order(this.id)" id = "send_button{{ product.id }}" class="btn btn-success">Send offer</button>
+                    <button type="button" onClick="sendOrder(this.id)" id = "send_button{{ product.id }}" class="btn btn-success">Add to cart</button>
                 </div>
             {% endfor %}
         </div>

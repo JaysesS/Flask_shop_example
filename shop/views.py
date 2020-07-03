@@ -4,15 +4,24 @@ from werkzeug.security import generate_password_hash, check_password_hash
 from flask_login import LoginManager, login_user, login_required, logout_user, current_user
 from flask_admin import Admin, AdminIndexView
 from flask_admin.contrib.sqla import ModelView
+from flask import session
 
 from forms import LoginForm, RegisterForm
 from models import User, Product, Order
 
-from procedure import query_view_product
+from flask_nav import Nav
+from nav import init_custom_nav_renderer, anon, auth
+
+from shop import view_products, get_product_dict, check_exist_product, update_amount_product, get_cost_cart, get_money_by_username
 
 login_manager = LoginManager()
 login_manager.init_app(app)
 login_manager.login_view = 'signin'
+
+nav = Nav(app)
+nav.register_element('navbarAnon', anon)
+nav.register_element('navbarAuth', auth)
+init_custom_nav_renderer(app)
 
 class AdminViewModels(ModelView):
     def is_accessible(self):
@@ -62,6 +71,7 @@ def signin():
         user = User.query.filter_by(username = form.username.data).first()
         if user and check_password_hash(user.password, form.password.data):
             login_user(user, remember=form.remember.data)
+            session['cart'] = []
             return redirect(url_for('index'))
         return render_template('signin.html', form = form, info = "Check input data")
     return render_template('signin.html', form = form)
@@ -90,15 +100,36 @@ def signup():
 
 @app.route('/shop/')
 def shop():
-    pq = Product.query.all()
-    products = query_view_product(pq)
+    products = view_products()
     return render_template('shop.html', products = products)
 
-@app.route('/order', methods = ['POST'])
-def order():
-    order = request.get_json()
-    print(order)
-    return jsonify(success=True, data=order)
+@app.route('/api/add_to_cart', methods = ['POST'])
+def add_to_cart():
+    cart = session['cart']
+    add_order = request.get_json()
+    id = int(add_order['id'])
+    amount = int(add_order['amount'])
+    if check_exist_product(cart, id):
+        cart = update_amount_product(cart, id, amount)
+    else:
+        product = get_product_dict(id)
+        product["amount"] = amount
+        cart.append(product)
+    session['cart'] = cart
+    return jsonify(success=True)
+
+@app.route('/cart')
+@login_required
+def cart():
+    cart = session['cart']
+    cost = get_cost_cart(cart)
+    user_wallet = get_money_by_username(current_user.username)
+    return render_template('cart.html', cart = cart, cost = cost, user_wallet = user_wallet)
+
+@app.route('/cart_clear', methods = ['POST', 'GET'])
+def cart_clear():
+    session['cart'] = list()
+    return redirect(url_for('cart'))
 
 @app.route('/account')
 def account():
