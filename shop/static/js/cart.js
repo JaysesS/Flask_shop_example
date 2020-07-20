@@ -50,9 +50,9 @@ function makeOrder()
         success: function(res) {
             $( ".info" ).empty();
             if (res["order"]){
-                $(".info").append("<div id='info_good' class='alert alert-success'><h3>"+ res["info"] +"</h3></div>");
+                $(".info").append("<div class='alert alert-success'><h3>"+ res["info"] +"</h3></div>");
             } else {
-                $(".info").append("<div id='info_good' class='alert alert-danger'><h3>"+ res["info"] +"</h3></div>");
+                $(".info").append("<div class='alert alert-danger'><h3>"+ res["info"] +"</h3></div>");
             }
             
         }
