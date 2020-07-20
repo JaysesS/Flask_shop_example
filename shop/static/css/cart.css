@@ -8,6 +8,7 @@
     flex-direction: row;
     justify-content: space-between;
     height: 80px;
+    width: 820px;
     padding-top: 15px;
 }
 
@@ -24,5 +25,29 @@
     flex-direction: row;
     justify-content: space-between;
     height: 80px;
+    width: 820px;
     padding-top: 15px;
+}
+
+.general_buttons {
+    display: inline-flex;
+    flex-direction: row;
+    justify-content: space-between;
+    width: 820px;
+}
+
+.general_buttons * {
+    padding-right: 15px;
+    width: 120px;
+}
+
+/* #info_good {
+    white-space: pre-line;
+}
+#info_bad {
+    white-space: pre-line;
+} */
+
+.info {
+    white-space: pre-line;
 }

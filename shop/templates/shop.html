@@ -30,7 +30,13 @@ Shop
                     <p>Amount: 
                         <input id = "amount_input{{ product.id }}" type="number" min = 1 max={{ product.count }} value="1">
                     </p>
-                    <button type="button" onClick="sendOrder(this.id)" id = "send_button{{ product.id }}" class="btn btn-success">Add to cart</button>
+                    {% if current_user.is_authenticated %}
+                    <button type="button" onClick="sendToCart(this.id)" id = "send_button{{ product.id }}" class="btn btn-success">Add to cart</button>
+                    {% else %}
+                    <a href="/signin">
+                        <button type="button" id = "send_button{{ product.id }}" class="btn btn-danger">Need sign!</button>
+                    </a>
+                    {% endif %}
                 </div>
             {% endfor %}
         </div>

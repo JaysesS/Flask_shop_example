@@ -8,7 +8,7 @@ window.onload = () => {
   }
 
 
-function sendOrder(clicked_id)
+function sendToCart(clicked_id)
 {
     var id = clicked_id.match(/\d+$/)[0];
     var amount_id = "#amount_input" + id

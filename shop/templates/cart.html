@@ -10,6 +10,12 @@ Cart
 <link rel="stylesheet" href="{{url_for('static', filename='css/cart.css')}}">
 {% endblock %}
 
+{% block scripts %}
+    {{ super() }}
+    <script type=text/javascript src="{{url_for('static', filename='js/cart.js')}}"></script>
+    <script type=text/javascript src="{{ url_for('static', filename='js/jquery-2.2.2.min.js') }}"></script>
+{% endblock %}
+
 {% block content %}
     <div class="container">
         {% if cart|length > 0 %}
@@ -30,6 +36,7 @@ Cart
                     <h3>Money: ${{ user_wallet }}</h3>
                 </div>
             </div>
+            <div id="products">
             {% for item in cart %}
                 <div class="product">
                     <div>
@@ -50,10 +57,18 @@ Cart
                     </div>
                 </div>
             {% endfor %}
-            <form action = "/cart_clear" type = "POST">
-                <button class="btn btn-danger" type = "submit">Delete all</button>
-            </form>
-            <h3>Total cost: <strong>${{ cost }}</strong></h3>
+            </div>
+            <div class="general_buttons">
+                <button class="btn btn-success" onclick="makeOrder()" type = "button">Make order</button>
+                <form action = "/cart_clear" type = "POST">
+                    <button class="btn btn-danger" type = "submit">Delete all</button>
+                </form>
+            </div>
+            <div id = "user_wallet">
+                <h3 >Total cost: <strong>${{ cost }}</strong></h3>
+            </div>
+            <div class="info">
+            </div>
         {% else %}
             <h3>You haven't added any products! Add product in <a href="{{ url_for('shop') }}">Shop</a>!</h3>
         {% endif %}

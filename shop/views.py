@@ -12,7 +12,7 @@ from models import User, Product, Order
 from flask_nav import Nav
 from nav import init_custom_nav_renderer, anon, auth
 
-from shop import view_products, get_product_dict, check_exist_product, update_amount_product, get_cost_cart, get_money_by_username
+from shop import view_products, get_product_dict, check_exist_product, update_amount_product, get_cost_cart, get_money_by_username, check_order, update_cost_cart
 
 login_manager = LoginManager()
 login_manager.init_app(app)
@@ -103,7 +103,9 @@ def shop():
     products = view_products()
     return render_template('shop.html', products = products)
 
+
 @app.route('/api/add_to_cart', methods = ['POST'])
+@login_required
 def add_to_cart():
     cart = session['cart']
     add_order = request.get_json()
@@ -118,10 +120,40 @@ def add_to_cart():
     session['cart'] = cart
     return jsonify(success=True)
 
+@app.route('/api/make_order', methods = ['POST'])
+@login_required
+def make_order():
+    order = request.get_json()
+    cart = session['cart']
+    user_wallet = get_money_by_username(current_user.username)
+    check = check_order(order, cart, user_wallet)
+    if len(check) == 0:
+        print('Good order!')
+        return jsonify(info = 'Your order has been sent!', order=True, success=True)
+    else:
+        print('Some problem')
+        return jsonify(info = check, order=False, success=True)
+
+@app.route('/api/update_cost', methods = ['POST'])
+@login_required
+def update_cost():
+    cart = session['cart']
+    added = request.get_json()
+    id = int(added['id'])
+    amount = int(added['amount'])
+    session['cart'] = update_cost_cart(cart, amount, id)
+    new_cost = get_cost_cart(session['cart'])
+    return jsonify(cost = new_cost, success=True)
+
+
 @app.route('/cart')
 @login_required
 def cart():
-    cart = session['cart']
+    try:
+        cart = session['cart']
+    except KeyError:
+        session['cart'] = list()
+        cart = session['cart']
     cost = get_cost_cart(cart)
     user_wallet = get_money_by_username(current_user.username)
     return render_template('cart.html', cart = cart, cost = cost, user_wallet = user_wallet)

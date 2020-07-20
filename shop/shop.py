@@ -43,9 +43,25 @@ def update_amount_product(cart, id, amount):
 def get_cost_cart(cart):
     cost = 0
     for item in cart:
-        cost += item['price']
+        cost += item['price'] * item['amount']
     return cost
 
 def get_money_by_username(username):
     user = User.query.filter_by(username = username).first()
     return user.money
+
+def check_order(order, cart, user_wallet):
+    if user_wallet < get_cost_cart(cart):
+        return 'Need more money!'
+    result = ""
+    for item in order:
+        product = get_product_dict(item["id"])
+        if int(item["amount"]) > product['count']:
+            result += f" We only have {product['count']} {product['name']}\n"
+    return result
+
+def update_cost_cart(cart, amount, id):
+    for i in range(len(cart)):
+        if cart[i]['id'] == id:
+            cart[i]['amount'] = amount 
+    return cart
