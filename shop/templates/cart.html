@@ -32,13 +32,11 @@ Cart
                 <div>
                     <h3>Amount</h3>
                 </div>
-                <div>
-                    <h3>Money: ${{ user_wallet }}</h3>
-                </div>
+                <div></div>
             </div>
             <div id="products">
             {% for item in cart %}
-                <div class="product">
+                <div class="product" id="product{{ item.id }}">
                     <div>
                         {{ item.name }}
                     </div>
@@ -53,7 +51,7 @@ Cart
                         value="{{ item.amount }}">
                     </div>
                     <div>
-                        <button type="button" onClick="" id = "send_button{{ item.id }}" class="btn btn-danger">Delete</button>
+                        <button type="button" onClick="removeItemCart(this.id)" id = "send_button{{ item.id }}" class="btn btn-danger">Delete</button>
                     </div>
                 </div>
             {% endfor %}
@@ -64,8 +62,11 @@ Cart
                     <button class="btn btn-danger" type = "submit">Delete all</button>
                 </form>
             </div>
-            <div id = "user_wallet">
+            <div id = "user_cost">
                 <h3 >Total cost: <strong>${{ cost }}</strong></h3>
+            </div>
+            <div id = "user_wallet">
+                <h3 >Your money: <strong>${{ user_wallet }}</strong></h3>
             </div>
             <div class="info">
             </div>

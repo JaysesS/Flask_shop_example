@@ -16,6 +16,13 @@ def view_products():
     ]
     return sorted(products, key=itemgetter('price'), reverse=True)
 
+def remove_product_cart(cart, id):
+    for i in range(len(cart)):
+        if cart[i]['id'] == id:
+            break
+    del cart[i]
+    return cart
+
 def get_product_dict(id):
     query_product = Product.query.filter_by(id = id).first()
     return {

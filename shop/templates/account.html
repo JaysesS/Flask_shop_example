@@ -1,17 +1,30 @@
 {% extends "base.html" %}
+{% import "bootstrap/wtf.html" as wtf %}
 
 {% block title %}
 Account
 {% endblock %}
 
 {% block styles %}
-{{ super() }}
-<link rel="stylesheet" href="{{url_for('static', filename='css/const.css')}}">
+    {{ super() }}
+    <link rel="stylesheet" href="{{url_for('static', filename='css/const.css')}}">
 {% endblock %}
 
 {% block content %}
     <div class="container">
-        <h2>Coming soon</h2>
+        <h3>Hello {{ current_user.username }}!</h3>
+        <h4>Email: {{ email }}</h4>
+        <h4>Money: ${{ money }}</h4>
+        <h4>Phone: {{ phone }}</h4>
+        <h4>Adress: {{ adress }}</h4>
+        <form class = "account_info" action="/account" method="POST">
+            <h3>Change info:</h3>
+            {{ form.hidden_tag() }}
+            {{ wtf.form_field(form.phone, value = phone ) }}
+            {{ wtf.form_field(form.adress, value = adress ) }}
+            {{ wtf.form_field(form.money, value = money ) }}
+            {{ wtf.form_field(form.submit) }}
+        </form>
     </div>
 
 

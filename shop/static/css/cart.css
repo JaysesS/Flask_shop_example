@@ -43,4 +43,12 @@
 
 .info {
     white-space: pre-line;
+    
+}
+
+#added_info {
+
+    display: flex;
+    justify-content: center;
+    align-items: center;
 }

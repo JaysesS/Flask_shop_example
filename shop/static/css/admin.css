@@ -1,0 +1,12 @@
+.second_container * {
+    margin-top: 20px;
+}
+
+.links {
+    display: flex;
+    flex-direction: row;
+}
+
+.links * {
+    margin-right: 10px;
+}
