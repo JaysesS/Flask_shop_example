@@ -1,0 +1,37 @@
+{
+    "products" : 
+    [ 
+        {
+            "name" : "Strong Doge",
+            "category" : "Dogs",
+            "description" : "Very strong, will help carry the car if it breaks down",
+            "count" : 10,
+            "price" : 10000,
+            "image" : "url"
+        }, 
+        {
+            "name" : "Medium Doge",
+            "category" : "Dogs",
+            "description" : "Help with repairs, build a house and more",
+            "count" : 10,
+            "price" : 7500,
+            "image" : "url"
+        },
+        {
+            "name" : "Small Doge",
+            "category" : "Dogs",
+            "description" : "Will carry food home, will help at home",
+            "count" : 10,
+            "price" : 5000,
+            "image" : "url"
+        },
+        {
+            "name" : "Smaller Doge",
+            "category" : "Dogs",
+            "description" : "Just will run around, nothing useful",
+            "count" : 10,
+            "price" : 2500,
+            "image" : "url"
+        }
+    ]
+}

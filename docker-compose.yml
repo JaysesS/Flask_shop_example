@@ -1,0 +1,21 @@
+version: "3.7"
+
+services:
+
+  flask:
+    build: ./flask
+    container_name: shop-on-flask
+    restart: always
+    environment:
+      - APP_NAME=shop-on-flask
+    volumes:
+        # host : container
+      - '/home/jayse/flask_shop/db/database.db:/app/app/database.db'
+    expose:
+      - 8080
+  nginx:
+    build: ./nginx
+    container_name: nginx
+    restart: always
+    ports:
+      - "80:80"

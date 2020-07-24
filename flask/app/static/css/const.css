@@ -1,0 +1,43 @@
+@media (min-width: 1350px) {
+    .container{
+        max-width: 870px;
+    }
+}
+
+.navbar-inverse {
+    background-color: #2ecc71;
+    border-color: #27ae60;
+    border-radius: 0px;
+}
+
+.navbar-inverse .navbar-nav > li > a {
+    color: rgb(235, 235, 235);
+}
+.navbar-inverse .navbar-brand {
+    color: rgb(235, 235, 235);
+}
+
+.navbar-inverse .navbar-collapse, .navbar-inverse .navbar-form {
+    border-color: #27ae60;
+}
+
+
+#navbar-blocks > li.active > a {
+    background-color: #2ecc71;
+    color: rgb(235, 235, 235);
+}
+
+#navbar-blocks > li.active:focus *,
+#navbar-blocks > li.active:hover *{
+    color: white;
+}
+
+#navbar-blocks > li.dropdown.open * {
+    background-color: #2ecc71;
+    color: rgb(235, 235, 235);
+}
+
+#navbar-blocks > li.dropdown.open:focus *,
+#navbar-blocks > li.dropdown.open:hover *{
+    color: white;
+}

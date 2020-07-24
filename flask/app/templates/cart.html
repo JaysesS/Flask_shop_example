@@ -1,0 +1,77 @@
+{% extends "base.html" %}
+
+{% block title %}
+Cart
+{% endblock %}
+
+{% block styles %}
+{{ super() }}
+<link rel="stylesheet" href="{{url_for('static', filename='css/const.css')}}">
+<link rel="stylesheet" href="{{url_for('static', filename='css/cart.css')}}">
+{% endblock %}
+
+{% block scripts %}
+    {{ super() }}
+    <script type=text/javascript src="{{url_for('static', filename='js/cart.js')}}"></script>
+    <script type=text/javascript src="{{ url_for('static', filename='js/jquery-2.2.2.min.js') }}"></script>
+{% endblock %}
+
+{% block content %}
+    <div class="container">
+        {% if cart|length > 0 %}
+            <div class="head">
+                <div>
+                    <h3>Name</h3>
+                </div>
+                <div>
+                    <h3>Category</h3>
+                </div>
+                <div>
+                    <h3>Price</h3>
+                </div>
+                <div>
+                    <h3>Amount</h3>
+                </div>
+                <div></div>
+            </div>
+            <div id="products">
+            {% for item in cart %}
+                <div class="product" id="product{{ item.id }}">
+                    <div>
+                        {{ item.name }}
+                    </div>
+                    <div>
+                        {{ item.category }}
+                    </div>
+                    <div>
+                        <strong>${{ item.price }}</strong>
+                    </div>
+                    <div>
+                        <input id = "amount_input{{ item.id }}" type="number" min = 1 max={{ item.count }} 
+                        value="{{ item.amount }}">
+                    </div>
+                    <div>
+                        <button type="button" onClick="removeItemCart(this.id)" id = "send_button{{ item.id }}" class="btn btn-danger">Delete</button>
+                    </div>
+                </div>
+            {% endfor %}
+            </div>
+            <div class="general_buttons">
+                <button class="btn btn-success" onclick="makeOrder()" type = "button">Make order</button>
+                <form action = "/cart_clear" type = "POST">
+                    <button class="btn btn-danger" type = "submit">Delete all</button>
+                </form>
+            </div>
+            <div id = "user_cost">
+                <h3 >Total cost: <strong>${{ cost }}</strong></h3>
+            </div>
+            <div id = "user_wallet">
+                <h3 >Your money: <strong>${{ user_wallet }}</strong></h3>
+            </div>
+            <div class="info">
+            </div>
+        {% else %}
+            <h3>You haven't added any products! Add product in <a href="{{ url_for('shop') }}">Shop</a>!</h3>
+        {% endif %}
+    </div>
+{% endblock %}

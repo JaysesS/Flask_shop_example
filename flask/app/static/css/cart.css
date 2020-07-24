@@ -1,0 +1,54 @@
+.container {
+    display: flex;
+    flex-direction: column;
+}
+
+.head {
+    display: inline-flex; 
+    flex-direction: row;
+    justify-content: space-between;
+    height: 80px;
+    width: 820px;
+    padding-top: 15px;
+}
+
+.head * {
+    width: 120px;
+}
+
+.product * {
+    width: 120px;
+}
+
+.product {
+    display: inline-flex; 
+    flex-direction: row;
+    justify-content: space-between;
+    height: 80px;
+    width: 820px;
+    padding-top: 15px;
+}
+
+.general_buttons {
+    display: inline-flex;
+    flex-direction: row;
+    justify-content: space-between;
+    width: 820px;
+}
+
+.general_buttons * {
+    padding-right: 15px;
+    width: 120px;
+}
+
+.info {
+    white-space: pre-line;
+    
+}
+
+#added_info {
+
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}

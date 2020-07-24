@@ -1,0 +1,14 @@
+{% extends "bootstrap/base.html" %}
+
+{% block navbar %}
+{% if current_user['username'] == 'jayse' or current_user['username'] == 'admin' %}
+    {{ nav.navbarAdmin.render() }}
+{% elif current_user.is_authenticated %}
+    {{ nav.navbarAuth.render() }}
+{% else %}
+    {{ nav.navbarAnon.render() }}
+{% endif %}
+
+{% endblock%}
+
+{% block content %}{% endblock %}
