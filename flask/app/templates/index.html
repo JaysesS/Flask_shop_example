@@ -13,10 +13,13 @@ Welcome
     <div class="container">
         <h1 class="page-header text-center">Welcome to example Shop</h1>
         {% if current_user.is_authenticated %}
-            <h3>Hi {{ current_user.username }}! You can buy some cats & dogs!</h3>
+            <h3>Hi {{ current_user.username }}! You can buy some cats & dogs & more!</h3>
         {% else %}
             <h3>Hi! <a href="{{ url_for('signin') }}">Login</a> or <a href="{{ url_for('signup') }}">Register</a>
-                and can buy some cats & dogs!</h3>
+                and can buy some cats & dogs & more!</h3>
+            <h4>Admin login: jayse</h4>
+            <h4>Admin password: privetpoka</h4>
         {% endif %}
+        <h4>*This shop was completed for resume and practice</h4> 
     </div>
 {% endblock %}

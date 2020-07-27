@@ -18,15 +18,26 @@ Shop
 
 {% block content %}
     <div class="container">
+        <div class="filter">
+            <h2>Filter by:</h2>
+            <form action="/shop/" method="POST">
+            {% for category in filter_info %}
+                <div>
+                    <input type="checkbox" name = "{{ category }}"" id="{{ category }}">
+                    <label for="{{ category }}">{{ category }}</label>
+                </div>
+            {% endfor %}
+            <button type="submit" class="btn btn-success" id = "filter_button" >Accept</button>
+            </form>
+        </div>
         <div class="list_products">
             {% if products|length > 1 %}
             <div class="alert alert-info fade out" id="alertToCart">
                 <strong>Product add to cart!</strong>
             </div>
-            <p></p>
                 {% for product in products %}
                     <div class="product">
-                        <img src="{{ url_for('static', filename = 'images/example.jpeg') }}" width="180" height="180" alt="{{ product.name }}" title="{{ product.name }}" border="0">
+                        <img src="/static/images/{{ product.image }}" width="180" height="180" alt="{{ product.name }}" title="{{ product.name }}" border="0">
                         <h2>{{ product.name }}</h2>
                         <p><strong>${{ product.price }}</strong> {{ product.count}} left</p>
                         <div class="description">

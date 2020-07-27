@@ -1,5 +1,5 @@
 from app import app, db
-from flask import render_template, redirect, url_for, request, jsonify
+from flask import render_template, redirect, url_for, request, flash, jsonify
 from werkzeug.security import generate_password_hash, check_password_hash
 from flask_login import LoginManager, login_user, login_required, logout_user, current_user
 from flask_admin import Admin, AdminIndexView
@@ -12,10 +12,9 @@ from .models import User, Product, Order
 from flask_nav import Nav
 from .nav import init_custom_nav_renderer, anon, auth, admin
 
-from .shop import view_products, get_product_dict, check_exist_product, update_amount_product, get_cost_cart, get_money_by_username, check_order, update_cost_cart, remove_product_cart
+from .shop import view_products, get_product_dict, check_exist_product, update_amount_product, get_cost_cart, get_money_by_username, check_order, update_cost_cart, remove_product_cart, delete_all_products, fill_all_products 
 
 from .account import get_user_info
-from .products import delete_all_products, fill_all_products 
 
 
 login_manager = LoginManager()
@@ -73,15 +72,24 @@ def signin():
         return redirect(url_for('index'))
     form = LoginForm()
     if form.is_submitted():
+        try:
+            del session['signup_redirect']
+        except KeyError:
+            pass
         user = User.query.filter_by(username = form.username.data).first()
         if user and check_password_hash(user.password, form.password.data):
             login_user(user, remember=form.remember.data)
             session['cart'] = []
+            session['shop_category'] = 'price max'
             if user.phone == '' or user.adress == '':
                 return redirect(url_for('account'))
             return redirect(url_for('index'))
-        return render_template('signin.html', form = form, info = "Check input data")
-    return render_template('signin.html', form = form)
+        flash("Incorrect password or login!")
+    try:
+        signup_redirect = session['signup_redirect']
+        return render_template('signin.html', form = form, signup_redirect = True)
+    except KeyError:
+        return render_template('signin.html', form = form)
 
 @app.route('/signup', methods=['GET', 'POST'])
 def signup():
@@ -102,15 +110,22 @@ def signup():
                             image = None)
             db.session.add(new_user)
             db.session.commit()
+            session['signup_redirect'] = True
             return redirect(url_for('signin'))
-        else:
-            return render_template('signup.html', form = form, info = "This username or email already used")
+        flash("This username or email already used")
     return render_template('signup.html', form = form)
 
-@app.route('/shop/')
+@app.route('/shop/', methods = ['GET','POST'])
 def shop():
-    products = view_products()
-    return render_template('shop.html', products = products)
+    filter_info = ['price min', 'price max', 'count', 'category']
+    if request.method == 'POST':
+        category = list((request.form.to_dict(flat=False)).keys())
+        if len(category) > 0:
+            session['shop_category'] = category[0]
+            products = view_products(session['shop_category'])
+            return render_template('shop.html', products = products, filter_info = filter_info)
+    products = view_products(session['shop_category'])
+    return render_template('shop.html', products = products, filter_info = filter_info)
 
 @app.route('/api/delete_products')
 @login_required

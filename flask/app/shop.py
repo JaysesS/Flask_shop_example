@@ -1,7 +1,9 @@
 from operator import itemgetter
 from .models import Product, User
+from app import db
+import json, os
 
-def view_products():
+def view_products(filter = 'price'):
     pq = Product.query.all()
     products = [
         {
@@ -10,11 +12,19 @@ def view_products():
             'category' : x.category,
             'description' : x.description,
             'count' : x.count,
-            'price' : x.price
+            'price' : x.price,
+            'image' : x.image
         }
         for x in pq
     ]
-    return sorted(products, key=itemgetter('price'), reverse=True)
+    if len(filter.split(' ')) > 1:
+        if filter.split(' ')[1] == 'min':
+            filter = filter.split(' ')[0]
+            return sorted(products, key=itemgetter(filter), reverse=False)
+        elif filter.split(' ')[1] == 'max':
+            filter = filter.split(' ')[0]
+            return sorted(products, key=itemgetter(filter), reverse=True)
+    return sorted(products, key=itemgetter(filter), reverse=True)
 
 def remove_product_cart(cart, id):
     for i in range(len(cart)):
@@ -72,3 +82,22 @@ def update_cost_cart(cart, amount, id):
         if cart[i]['id'] == id:
             cart[i]['amount'] = amount 
     return cart
+
+def delete_all_products():
+    Product.query.delete()
+    db.session.commit()
+
+def fill_all_products():
+    filename = os.path.join(os.path.dirname(os.path.abspath(__file__)),"products.json")
+    with open(filename, "r") as file:
+        products = json.load(file)['products']
+        for item in products:
+            product = Product(
+                name = item['name'],
+                category = item['category'],
+                description = item['description'],
+                count = item['count'],
+                price = item['price'],
+                image = item['image'])
+            db.session.add(product)
+            db.session.commit()

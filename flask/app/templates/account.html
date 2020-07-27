@@ -7,23 +7,26 @@ Account
 
 {% block styles %}
     {{ super() }}
+    <link rel="stylesheet" href="{{url_for('static', filename='css/account.css')}}">
     <link rel="stylesheet" href="{{url_for('static', filename='css/const.css')}}">
 {% endblock %}
 
 {% block content %}
     <div class="container">
-        <h3>Hello {{ current_user.username }}!</h3>
-        <h4>Email: {{ email }}</h4>
-        <h4>Money: ${{ money }}</h4>
-        <h4>Phone: {{ phone }}</h4>
-        <h4>Adress: {{ adress }}</h4>
+        <h3>Your personal info:</h3>
+        <p>
+        <p>Username: {{ current_user.username }}</p>
+        <p>Email: {{ email }}</p>
+        <p>Money: ${{ money }}</p>
+        <p>Phone: {{ phone }}</p>
+        <p>Adress: {{ adress }}</p>
+        <h3>Change info:</h3>
         <form class = "account_info" action="/account" method="POST">
-            <h3>Change info:</h3>
             {{ form.hidden_tag() }}
             {{ wtf.form_field(form.phone, value = phone ) }}
             {{ wtf.form_field(form.adress, value = adress ) }}
             {{ wtf.form_field(form.money, value = money ) }}
-            {{ wtf.form_field(form.submit) }}
+            {{ wtf.form_field(form.submit, class = "btn btn-success") }}
         </form>
     </div>
 

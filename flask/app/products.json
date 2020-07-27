@@ -7,7 +7,7 @@
             "description" : "Very strong, will help carry the car if it breaks down",
             "count" : 10,
             "price" : 10000,
-            "image" : "url"
+            "image" : "example.jpeg"
         }, 
         {
             "name" : "Medium Doge",
@@ -15,7 +15,7 @@
             "description" : "Help with repairs, build a house and more",
             "count" : 10,
             "price" : 7500,
-            "image" : "url"
+            "image" : "example.jpeg"
         },
         {
             "name" : "Small Doge",
@@ -23,7 +23,7 @@
             "description" : "Will carry food home, will help at home",
             "count" : 10,
             "price" : 5000,
-            "image" : "url"
+            "image" : "example.jpeg"
         },
         {
             "name" : "Smaller Doge",
@@ -31,7 +31,23 @@
             "description" : "Just will run around, nothing useful",
             "count" : 10,
             "price" : 2500,
-            "image" : "url"
+            "image" : "example.jpeg"
+        },
+        {
+            "name" : "Oneme",
+            "category" : "NotHumans",
+            "description" : "Just will run around, nothing useful, spend your time",
+            "count" : 150,
+            "price" : 10,
+            "image" : "oneme.jpg"
+        },
+        {
+            "name" : "Wild Cat",
+            "category" : "Cats",
+            "description" : "Funny and savage",
+            "count" : 100,
+            "price" : 50,
+            "image" : "savegecat.jpg"
         }
     ]
 }

@@ -1,8 +1,19 @@
+.container {
+    display: flex;
+    justify-content: center;
+    flex-direction: row;
+}
+
+.filter {
+    width: 150px;
+    margin-right: 30px;
+}
+
 .list_products {
-    display: inline-flex;
+    display: flex;
+    flex-direction: row;
     flex-wrap: wrap;
-    justify-content: stretch;
-    
+    width: 750px;
 }
 
 .list_products * {
@@ -10,7 +21,7 @@
 }
 
 .product {
-    width: 250px;
+    width: 230px;
     padding-top: 10px;
 }
 
@@ -38,8 +49,14 @@
     border-color: #27ae60;
 }
 
-input {
-    width: 60px;
+#filter_button {
+    width: 130px;
+    background-color: #2ecc71;
+    border-color: #27ae60;
+}
+
+input[type="number"] {
+    width: 70px;
     height: 20px;
 }
 

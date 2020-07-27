@@ -19,9 +19,25 @@
             {{ wtf.form_field(form.username) }}
             {{ wtf.form_field(form.password) }}
             {{ wtf.form_field(form.remember) }}
-            {{ wtf.form_field(form.submit) }}
-            <h4>{{ info }}</h4>
+            {{ wtf.form_field(form.submit, class = "btn btn-success") }}
+            {% with messages = get_flashed_messages() %}
+                {% if messages %}
+                    {% for message in messages %}
+                        <div class="alert alert-warning text-center" id="alertIncorrect">
+                            <strong>{{ message }}</strong>
+                        </div>
+                    {% endfor %}
+                {% endif %}
+            {% endwith %}
+            {% if signup_redirect %}
+                <div class="alert alert-success text-center" id="alertSignupDone">
+                    <strong>Successful registration</strong>
+                </div>
+            {% endif %}
         </form>
+        <div>
+            
+        </div>
     </div>
     
 {% endblock %}

@@ -10,7 +10,7 @@ services:
       - APP_NAME=shop-on-flask
     volumes:
         # host : container
-      - '/home/jayse/flask_shop/db/database.db:/app/app/database.db'
+      - './db/database.db:/app/app/database.db'
     expose:
       - 8080
   nginx:

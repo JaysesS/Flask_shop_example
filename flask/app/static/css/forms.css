@@ -8,3 +8,21 @@
     flex-direction: column;
     width: 400px;
 }
+
+#alertIncorrect {
+    margin-top: 15px;
+    height: 35px;
+    background-color: rgba(202, 72, 72, 0.75);
+    border-color: #c5130d;
+    color: white;
+    line-height: 5px;
+}
+
+#alertSignupDone {
+    margin-top: 15px;
+    height: 35px;
+    background-color: rgba(46, 204, 113, 0.9);
+    border-color: #27ae60;
+    color: white;
+    line-height: 5px;
+}
