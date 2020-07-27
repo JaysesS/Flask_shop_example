@@ -106,8 +106,7 @@ def signup():
                             email = form.email.data,
                             phone = '',
                             adress = '',
-                            money = 0,
-                            image = None)
+                            money = 0)
             db.session.add(new_user)
             db.session.commit()
             session['signup_redirect'] = True

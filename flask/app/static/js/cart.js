@@ -42,7 +42,6 @@ function update_cost_all(){
 
 function checkCountInCart(){
     var count = $("#products div").length;
-    console.log(count);
     if (count === 0){
         document.location.reload(true);
     }
@@ -92,6 +91,7 @@ function makeOrder()
                 } else {
                     $(".info").append("<div id = 'added_info' class='alert alert-danger'><h3>"+ res["info"] +"</h3></div>");
                 }
+                document.location.reload(true);
             }
         });
     }

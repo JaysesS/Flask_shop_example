@@ -9,7 +9,6 @@ class User(UserMixin, db.Model):
     adress = db.Column(db.String(100))
     phone = db.Column(db.String(12))
     money = db.Column(db.Integer, default = 0)
-    image = db.Column(db.String(100))
 
 class Product(db.Model):
     id = db.Column(db.Integer, primary_key=True)

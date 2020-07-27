@@ -44,6 +44,11 @@
     color: white;
 }
 
+#alertToCart:hover {
+    background-color: #449d44;
+    border-color: #398439;
+}
+
 .btn-success {
     background-color: #2ecc71;
     border-color: #27ae60;
